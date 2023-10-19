@@ -22,10 +22,10 @@ class _HomePageState extends State<HomePage> {
         _error = null;
       });
 
-      await Future.delayed(Duration(seconds: 3), () {});
+      await Future.delayed(const Duration(seconds: 3), () {});
 
       final response =
-      await _dio.get('https://jsonplaceholder.typicode.com/todos');
+      await _dio.get('https://jsonplaceholder.typicode.com/albums');
       debugPrint(response.data.toString());
       // parse
       List list = jsonDecode(response.data.toString());
@@ -75,17 +75,65 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                children: [
-                  Expanded(child: Text(todoItem.title)),
-                  Checkbox(
-                    value: todoItem.completed,
-                    onChanged: (newValue) {
-                      setState(() {
-                        todoItem.completed = newValue!;
-                      });
-                    },
-                  ),
-                ],
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                    child: Row(
+                                    children: [
+                                      Text(todoItem.title),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: Color(0xFFFFD9F2),
+
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                          child: Text('Album ID: '+todoItem.id.toString()),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(4),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: Color(0xFFC1D8FF),
+
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                          child: Text('User ID: '+todoItem.userId.toString()),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                    ],
               ),
             ),
           );
@@ -94,6 +142,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
+      appBar: AppBar(title: Center(child: const Text('PhotoAlbums',))),
       body: body,
     );
   }
